@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sanjul Mishra — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#05080f;
+  --s1:#0a0e1a;
+  --s2:#0f1525;
+  --border:#1a2540;
+  --accent:#00f5c4;
+  --accent2:#5b8dee;
+  --accent3:#f5a623;
+  --text:#dde4f0;
+  --muted:#6b7fa3;
+  --head:'Syne',sans-serif;
+  --body:'Space Grotesk',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--body);overflow-x:hidden}
+
+/* CURSOR */
+.cursor{width:12px;height:12px;background:var(--accent);border-radius:50%;position:fixed;pointer-events:none;z-index:9999;transition:transform .15s ease;mix-blend-mode:difference}
+.cursor-ring{width:40px;height:40px;border:1px solid rgba(0,245,196,0.4);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;transition:all .1s ease}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 6%;height:64px;display:flex;align-items:center;justify-content:space-between;background:rgba(5,8,15,0.7);backdrop-filter:blur(20px);border-bottom:1px solid rgba(26,37,64,0.5)}
+.nav-logo{font-family:var(--head);font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.nav-links{display:flex;gap:32px}
+.nav-links a{color:var(--muted);text-decoration:none;font-size:13px;font-weight:500;letter-spacing:.5px;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--accent);transition:width .3s}
+.nav-links a:hover{color:var(--accent)}
+.nav-links a:hover::after{width:100%}
+
+/* NOISE OVERLAY */
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.4}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding:80px 6% 0;position:relative;overflow:hidden}
+.hero-bg-orb{position:absolute;border-radius:50%;filter:blur(120px);pointer-events:none}
+.orb1{width:600px;height:600px;background:rgba(0,245,196,0.06);top:-100px;right:-100px}
+.orb2{width:400px;height:400px;background:rgba(91,141,238,0.06);bottom:0;left:-100px}
+.hero-content{position:relative;z-index:1;max-width:680px}
+.hero-eyebrow{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.hero-eyebrow-line{width:40px;height:1px;background:var(--accent)}
+.hero-eyebrow span{font-size:12px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:500}
+.hero-name{font-family:var(--head);font-size:clamp(52px,8vw,96px);font-weight:800;line-height:.95;letter-spacing:-3px;margin-bottom:8px}
+.hero-name .line1{display:block;color:var(--text)}
+.hero-name .line2{display:block;background:linear-gradient(135deg,var(--accent) 0%,var(--accent2) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-title{font-size:18px;color:var(--muted);margin:24px 0 40px;line-height:1.6;max-width:500px}
+.hero-title strong{color:var(--text)}
+.hero-ctas{display:flex;gap:16px;margin-bottom:60px;flex-wrap:wrap}
+.btn-glow{background:var(--accent);color:#000;padding:14px 32px;border-radius:4px;font-weight:700;font-size:14px;text-decoration:none;letter-spacing:.3px;position:relative;overflow:hidden;transition:transform .2s}
+.btn-glow::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--accent),var(--accent2));opacity:0;transition:opacity .3s}
+.btn-glow:hover{transform:translateY(-2px)}
+.btn-ghost{border:1px solid var(--border);color:var(--text);padding:14px 32px;border-radius:4px;font-size:14px;text-decoration:none;transition:border-color .2s,color .2s}
+.btn-ghost:hover{border-color:var(--accent);color:var(--accent)}
+.hero-stats-row{display:flex;gap:40px;border-top:1px solid var(--border);padding-top:40px}
+.hero-stat .num{font-family:var(--head);font-size:36px;font-weight:800;color:var(--accent);line-height:1}
+.hero-stat .label{font-size:12px;color:var(--muted);margin-top:4px;letter-spacing:.5px}
+.hero-right{position:absolute;right:6%;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:1}
+.float-card{background:rgba(10,14,26,0.9);border:1px solid var(--border);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:14px;animation:float 4s ease-in-out infinite;backdrop-filter:blur(10px);min-width:260px}
+.float-card:nth-child(2){animation-delay:1s}
+.float-card:nth-child(3){animation-delay:2s}
+.float-card:nth-child(4){animation-delay:3s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.fc-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.fc-icon.g{background:rgba(0,245,196,0.1);border:1px solid rgba(0,245,196,0.2)}
+.fc-icon.b{background:rgba(91,141,238,0.1);border:1px solid rgba(91,141,238,0.2)}
+.fc-icon.o{background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2)}
+.fc-title{font-size:13px;font-weight:600;color:var(--text)}
+.fc-sub{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:14px 0;background:var(--s1)}
+.marquee-track{display:flex;gap:0;animation:marquee 25s linear infinite;white-space:nowrap}
+.marquee-item{display:inline-flex;align-items:center;gap:12px;padding:0 32px;font-size:13px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;font-weight:500}
+.marquee-dot{width:4px;height:4px;background:var(--accent);border-radius:50%;flex-shrink:0}
+@keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{padding:100px 6%;position:relative;z-index:1}
+.sec-label{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.sec-label-line{width:30px;height:1px;background:var(--accent)}
+.sec-label span{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:600}
+.sec-title{font-family:var(--head);font-size:clamp(32px,5vw,52px);font-weight:800;letter-spacing:-2px;line-height:1;margin-bottom:60px}
+
+/* ABOUT */
+#about{background:var(--s1)}
+.about-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:80px;align-items:start}
+.about-text p{color:var(--muted);line-height:1.9;margin-bottom:18px;font-size:16px}
+.about-text p strong{color:var(--text);font-weight:600}
+.tag-cloud{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.tag{background:rgba(0,245,196,0.05);border:1px solid rgba(0,245,196,0.15);color:var(--accent);font-size:12px;padding:6px 14px;border-radius:2px;letter-spacing:.5px;transition:background .2s}
+.tag:hover{background:rgba(0,245,196,0.1)}
+.edu-stack{display:flex;flex-direction:column;gap:1px}
+.edu-card{background:var(--s2);border:1px solid var(--border);padding:24px 28px;position:relative;overflow:hidden;transition:border-color .2s}
+.edu-card:first-child{border-radius:12px 12px 0 0}
+.edu-card:last-child{border-radius:0 0 12px 12px}
+.edu-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:linear-gradient(var(--accent),var(--accent2))}
+.edu-card:hover{border-color:rgba(0,245,196,0.3)}
+.edu-inst{font-weight:700;font-size:15px;color:var(--text);margin-bottom:4px}
+.edu-deg{font-size:13px;color:var(--muted);margin-bottom:8px}
+.edu-yr{font-size:11px;color:var(--accent);letter-spacing:1px;text-transform:uppercase}
+.edu-note{font-size:12px;color:var(--muted);margin-top:6px;opacity:.7}
+
+/* EXPERIENCE */
+.exp-timeline{display:flex;flex-direction:column;gap:2px}
+.exp-item{background:var(--s1);border:1px solid var(--border);padding:28px 32px;position:relative;overflow:hidden;transition:border-color .3s,background .3s;cursor:default}
+.exp-item:first-child{border-radius:12px 12px 0 0}
+.exp-item:last-child{border-radius:0 0 12px 12px}
+.exp-item::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform:scaleX(0);transform-origin:left;transition:transform .4s}
+.exp-item:hover{border-color:rgba(0,245,196,0.2);background:var(--s2)}
+.exp-item:hover::after{transform:scaleX(1)}
+.exp-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;gap:20px}
+.exp-badge{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;padding:4px 10px;border-radius:2px;font-weight:600;white-space:nowrap;flex-shrink:0}
+.badge-g{background:rgba(0,245,196,0.1);color:var(--accent);border:1px solid rgba(0,245,196,0.2)}
+.badge-b{background:rgba(91,141,238,0.1);color:var(--accent2);border:1px solid rgba(91,141,238,0.2)}
+.badge-o{background:rgba(245,166,35,0.1);color:var(--accent3);border:1px solid rgba(245,166,35,0.2)}
+.exp-role{font-family:var(--head);font-size:19px;font-weight:700;color:var(--text);margin-bottom:4px}
+.exp-org{font-size:13px;color:var(--muted);margin-bottom:16px}
+.exp-pts{list-style:none;display:flex;flex-direction:column;gap:6px}
+.exp-pts li{font-size:13px;color:var(--muted);padding-left:18px;position:relative;line-height:1.6}
+.exp-pts li::before{content:'▸';position:absolute;left:0;color:var(--accent);font-size:10px;top:3px}
+
+/* PROJECTS */
+#projects{background:var(--s1)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.proj-card{background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:28px;transition:transform .25s,border-color .25s;position:relative;overflow:hidden}
+.proj-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);opacity:0;transition:opacity .3s}
+.proj-card:hover{transform:translateY(-6px);border-color:rgba(0,245,196,0.2)}
+.proj-card:hover::before{opacity:1}
+.proj-num{font-family:var(--head);font-size:52px;font-weight:800;color:rgba(0,245,196,0.07);line-height:1;margin-bottom:16px}
+.proj-name{font-family:var(--head);font-size:17px;font-weight:700;color:var(--text);margin-bottom:10px}
+.proj-desc{font-size:13px;color:var(--muted);line-height:1.7}
+.proj-meta{margin-top:20px;padding-top:16px;border-top:1px solid var(--border);font-size:11px;color:var(--accent);letter-spacing:1px;text-transform:uppercase}
+
+/* PUBLICATIONS */
+.pub-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.pub-card{background:var(--s1);border:1px solid var(--border);border-radius:10px;padding:22px;display:flex;gap:16px;transition:border-color .2s}
+.pub-card:hover{border-color:rgba(91,141,238,0.3)}
+.pub-icon{width:44px;height:44px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.pub-icon.book{background:rgba(91,141,238,0.1);border:1px solid rgba(91,141,238,0.2)}
+.pub-icon.conf{background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2)}
+.pub-type{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent2);margin-bottom:6px;font-weight:600}
+.pub-title{font-size:13px;font-weight:600;color:var(--text);line-height:1.5}
+.pub-detail{font-size:11px;color:var(--muted);margin-top:4px}
+
+/* CERTIFICATIONS */
+#certs{background:var(--s1)}
+.cert-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.cert-card{background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:20px 22px;display:flex;align-items:center;gap:16px;transition:border-color .2s,transform .2s}
+.cert-card:hover{border-color:rgba(0,245,196,0.25);transform:translateX(4px)}
+.cert-logo{width:42px;height:42px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;font-weight:700}
+.cert-name{font-size:14px;font-weight:600;color:var(--text);margin-bottom:3px}
+.cert-issuer{font-size:11px;color:var(--muted)}
+
+/* SKILLS */
+.skills-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.skill-group{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:24px}
+.skill-group-hd{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:20px;font-weight:600}
+.skill-row{margin-bottom:16px}
+.skill-row:last-child{margin-bottom:0}
+.skill-top{display:flex;justify-content:space-between;margin-bottom:6px}
+.skill-name{font-size:13px;color:var(--text)}
+.skill-pct{font-size:11px;color:var(--muted)}
+.skill-track{height:3px;background:rgba(255,255,255,0.06);border-radius:2px;overflow:hidden}
+.skill-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));transform-origin:left;animation:fillBar .8s ease forwards}
+@keyframes fillBar{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* LEADERSHIP */
+.lead-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.lead-card{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:24px;display:flex;gap:18px;transition:border-color .2s}
+.lead-card:hover{border-color:rgba(0,245,196,0.2)}
+.lead-ico{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;background:rgba(0,245,196,0.06);border:1px solid rgba(0,245,196,0.15)}
+.lead-name{font-weight:700;font-size:15px;color:var(--text);margin-bottom:2px}
+.lead-org{font-size:11px;color:var(--accent);letter-spacing:.5px;margin-bottom:8px}
+.lead-desc{font-size:12px;color:var(--muted);line-height:1.65}
+
+/* CONTACT */
+#contact{background:var(--s1)}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.contact-text h2{font-family:var(--head);font-size:clamp(32px,4vw,48px);font-weight:800;letter-spacing:-2px;margin-bottom:20px;line-height:1}
+.contact-text p{color:var(--muted);font-size:16px;line-height:1.8;margin-bottom:36px}
+.contact-links{display:flex;flex-direction:column;gap:12px}
+.contact-link{display:flex;align-items:center;gap:14px;background:var(--s2);border:1px solid var(--border);border-radius:10px;padding:16px 20px;text-decoration:none;color:var(--text);transition:border-color .2s,transform .2s}
+.contact-link:hover{border-color:var(--accent);transform:translateX(6px)}
+.cl-icon{width:36px;height:36px;border-radius:8px;background:rgba(0,245,196,0.08);border:1px solid rgba(0,245,196,0.15);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.cl-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.cl-val{font-size:13px;font-weight:500;margin-top:2px}
+.contact-cta-box{background:var(--s2);border:1px solid var(--border);border-radius:16px;padding:40px;text-align:center;position:relative;overflow:hidden}
+.contact-cta-box::before{content:'';position:absolute;top:-60px;left:50%;transform:translateX(-50%);width:200px;height:200px;background:rgba(0,245,196,0.04);border-radius:50%;filter:blur(40px);pointer-events:none}
+.cta-emoji{font-size:48px;margin-bottom:20px;display:block}
+.contact-cta-box h3{font-family:var(--head);font-size:26px;font-weight:800;margin-bottom:12px;letter-spacing:-1px}
+.contact-cta-box p{color:var(--muted);font-size:14px;margin-bottom:28px;line-height:1.7}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:28px 6%;display:flex;justify-content:space-between;align-items:center}
+.footer-logo{font-family:var(--head);font-weight:800;font-size:16px;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.footer-note{font-size:12px;color:var(--muted)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* MOBILE */
+@media(max-width:900px){
+  .hero-right{display:none}
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+  .proj-grid,.cert-grid,.lead-grid,.pub-grid,.skills-wrap{grid-template-columns:1fr}
+  .nav-links{display:none}
+  .hero-stats-row{gap:24px;flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<nav>
+  <div class="nav-logo">SM</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#leadership">Leadership</a>
+    <a href="#certs">Certs</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-orb orb1"></div>
+  <div class="hero-bg-orb orb2"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <div class="hero-eyebrow-line"></div>
+      <span>MBA · Operations & Project Execution</span>
+    </div>
+    <div class="hero-name">
+      <span class="line1">Sanjul</span>
+      <span class="line2">Mishra</span>
+    </div>
+    <p class="hero-title">
+      Turning strategy into <strong>structured, scalable action</strong> — across institutions, events, research & industry. IIBS Bengaluru · BCU.
+    </p>
+    <div class="hero-ctas">
+      <a class="btn-glow" href="#projects">View My Work</a>
+      <a class="btn-ghost" href="#contact">Let's Connect</a>
+    </div>
+    <div class="hero-stats-row">
+      <div class="hero-stat"><div class="num">2,500+</div><div class="label">Participants Managed</div></div>
+      <div class="hero-stat"><div class="num">2×</div><div class="label">Conclave Editions</div></div>
+      <div class="hero-stat"><div class="num">4</div><div class="label">Publications</div></div>
+      <div class="hero-stat"><div class="num">5+</div><div class="label">Certifications</div></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="float-card">
+      <div class="fc-icon g">🏆</div>
+      <div><div class="fc-title">Executive Coordinator</div><div class="fc-sub">NEXUS EDGE 2K25 & 2K26</div></div>
+    </div>
+    <div class="float-card">
+      <div class="fc-icon b">📚</div>
+      <div><div class="fc-title">Published Author</div><div class="fc-sub">2 Book Chapters · 2 Conference Papers</div></div>
+    </div>
+    <div class="float-card">
+      <div class="fc-icon o">🎓</div>
+      <div><div class="fc-title">Harvard Programs</div><div class="fc-sub">Business Impact & ManageMentor</div></div>
+    </div>
+    <div class="float-card">
+      <div class="fc-icon g">🏸</div>
+      <div><div class="fc-title">National Level Volunteer</div><div class="fc-sub">Para Badminton Championship 2023</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item"><span class="marquee-dot"></span>Operations & Execution</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Project Management</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Event Coordination</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Research & Publications</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Harvard ManageMentor</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Six Sigma White Belt</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Google Project Management</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>NISM V-A Certified</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Operations & Execution</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Project Management</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Event Coordination</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Research & Publications</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Harvard ManageMentor</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Six Sigma White Belt</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>Google Project Management</span>
+    <span class="marquee-item"><span class="marquee-dot"></span>NISM V-A Certified</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-label"><div class="sec-label-line"></div><span>Who I Am</span></div>
+  <div class="sec-title">About Me</div>
+  <div class="about-grid reveal">
+    <div class="about-text">
+      <p>I'm <strong>Sanjul Mishra</strong> — an MBA student at IIBS Bengaluru, specializing in <strong>Operations & Project Execution</strong>. I've spent my academic years not just learning, but doing — coordinating conclaves with 2,500+ participants, leading research clubs, editing university publications, and volunteering at national-level events.</p>
+      <p>I bridge the gap between strategy and ground-level execution. While most people plan, <strong>I make it happen</strong> — on time, under pressure, across institutions and stakeholder groups that rarely align easily.</p>
+      <p>I also have a published record — two book chapters and two conference papers — that reflects my commitment to <strong>research-driven thinking</strong> alongside operational execution.</p>
+      <div class="tag-cloud">
+        <span class="tag">Project Execution</span>
+        <span class="tag">Operations</span>
+        <span class="tag">Event Management</span>
+        <span class="tag">Stakeholder Coordination</span>
+        <span class="tag">Research & Publishing</span>
+        <span class="tag">Team Leadership</span>
+        <span class="tag">Content & Editorial</span>
+        <span class="tag">Supply Chain</span>
+        <span class="tag">Digital Marketing</span>
+      </div>
+    </div>
+    <div class="edu-stack">
+      <div class="edu-card">
+        <div class="edu-inst">International Institute of Business Studies (IIBS)</div>
+        <div class="edu-deg">MBA — Operations & Project Management</div>
+        <div class="edu-yr">Bengaluru · 2024 – 2026</div>
+        <div class="edu-note">NAAC A-Grade · BCU Affiliated · Highest CGP 3.2/4</div>
+      </div>
+      <div class="edu-card">
+        <div class="edu-inst">Dr. Shakuntala Misra National Rehabilitation University</div>
+        <div class="edu-deg">BBA — Bachelor of Business Administration</div>
+        <div class="edu-yr">Lucknow, UP · 2020 – 2023</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-label"><div class="sec-label-line"></div><span>What I've Done</span></div>
+  <div class="sec-title">Experience</div>
+  <div class="exp-timeline reveal">
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Executive Student Coordinator</div>
+          <div class="exp-org">NEXUS EDGE 2K25 & 2K26 · IIBS × Bengaluru City University</div>
+        </div>
+        <span class="exp-badge badge-g">Flagship Role</span>
+      </div>
+      <ul class="exp-pts">
+        <li>Led end-to-end operations for a 2,500+ participant inter-institutional management conclave across two editions</li>
+        <li>Coordinated 30+ colleges, industry speakers, sponsors, faculty, and internal teams simultaneously</li>
+        <li>Managed registration flow, scheduling, and real-time issue resolution under tight deadlines</li>
+        <li>Secured sponsor alignment and drove outreach that added immense value to event scale and reach</li>
+      </ul>
+    </div>
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Sales & Marketing Intern</div>
+          <div class="exp-org">Solas Marine Services Pvt. Ltd. · Mumbai · Sep 2022</div>
+        </div>
+        <span class="exp-badge badge-b">Internship</span>
+      </div>
+      <ul class="exp-pts">
+        <li>Assisted sales and marketing team in client communication, pitch decks, and market outreach</li>
+        <li>Conducted marketing strategy analysis — later developed into BBA summer project</li>
+        <li>Gained exposure to B2B marine industry sales cycles and client relationship management</li>
+      </ul>
+    </div>
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Digital Marketing Intern</div>
+          <div class="exp-org">Pie Infocomm Pvt. Ltd. · Jul – Aug 2022</div>
+        </div>
+        <span class="exp-badge badge-b">Internship</span>
+      </div>
+      <ul class="exp-pts">
+        <li>Worked on digital content strategy, social media management, and campaign execution</li>
+        <li>Supported SEO, content creation, and analytics reporting for client accounts</li>
+      </ul>
+    </div>
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Product Research Trainee</div>
+          <div class="exp-org">Onourem Internet Services Pvt. Ltd. · Mar 2021</div>
+        </div>
+        <span class="exp-badge badge-o">Trainee</span>
+      </div>
+      <ul class="exp-pts">
+        <li>Conducted product research and competitive landscape analysis for an internet services startup</li>
+        <li>Supported product documentation and user research initiatives</li>
+      </ul>
+    </div>
+    <div class="exp-item">
+      <div class="exp-header">
+        <div>
+          <div class="exp-role">Operations Support Volunteer</div>
+          <div class="exp-org">5th National Para Badminton Championship · Lucknow, UP · 2022–23</div>
+        </div>
+        <span class="exp-badge badge-g">National Level</span>
+      </div>
+      <ul class="exp-pts">
+        <li>Supported on-ground logistics for a multi-day national sporting event with Paralympic India</li>
+        <li>Assisted officials to ensure smooth participant movement and scheduling across venues</li>
+        <li>Maintained operational discipline under structured supervision with tight timelines</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-label"><div class="sec-label-line"></div><span>Key Initiatives</span></div>
+  <div class="sec-title">Projects & Execution</div>
+  <div class="proj-grid reveal">
+    <div class="proj-card">
+      <div class="proj-num">01</div>
+      <div class="proj-name">NEXUS EDGE — Management Conclave</div>
+      <div class="proj-desc">Inter-institutional conclave on leadership, strategy & tech-driven management. Organized by IIBS × BCU at Jnana Jyothi Auditorium, Central College Campus, Bengaluru.</div>
+      <div class="proj-meta">2,500+ participants · 30+ colleges · 2 editions</div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-num">02</div>
+      <div class="proj-name">Marketing Strategy Analysis — Solas Marine</div>
+      <div class="proj-desc">BBA summer project analyzing sales & marketing strategy of Solas Marine Services Pvt. Ltd., Mumbai. Involved client interactions, market study, and strategic recommendations.</div>
+      <div class="proj-meta">Academic Project · B2B Marine Industry</div>
+    </div>
+    <div class="proj-card">
+      <div class="proj-num">03</div>
+      <div class="proj-name">University Monthly Magazine</div>
+      <div class="proj-desc">Led content planning, editorial oversight, and timely publication cycles of the university magazine at DSMNRU. Coordinated contributors across departments for every issue.</div>
+      <div class="proj-meta">Editor · Multi-department coordination</div>
+    </div>
+  </div>
+</section>
+
+<!-- PUBLICATIONS -->
+<section id="publications" style="background:var(--s1)">
+  <div class="sec-label"><div class="sec-label-line"></div><span>Research Output</span></div>
+  <div class="sec-title">Publications</div>
+  <div class="pub-grid reveal">
+    <div class="pub-card">
+      <div class="pub-icon book">📖</div>
+      <div>
+        <div class="pub-type">Book Chapter · Chapter 20</div>
+        <div class="pub-title">Financial Literacy and Its Role in Managing Household Finance</div>
+        <div class="pub-detail">Published academic book chapter</div>
+      </div>
+    </div>
+    <div class="pub-card">
+      <div class="pub-icon book">📖</div>
+      <div>
+        <div class="pub-type">Book Chapter · Chapter 22</div>
+        <div class="pub-title">Managing Work-Life Balance Using Information Technology</div>
+        <div class="pub-detail">Published academic book chapter</div>
+      </div>
+    </div>
+    <div class="pub-card">
+      <div class="pub-icon conf">🎤</div>
+      <div>
+        <div class="pub-type">Conference Paper</div>
+        <div class="pub-title">Exploring Green Supply Chain Practices</div>
+        <div class="pub-detail">Presented at academic conference</div>
+      </div>
+    </div>
+    <div class="pub-card">
+      <div class="pub-icon conf">🎤</div>
+      <div>
+        <div class="pub-type">Conference Paper</div>
+        <div class="pub-title">Balancing Lean and Agile Strategies for Resilient Operations</div>
+        <div class="pub-detail">Presented at academic conference</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section id="leadership">
+  <div class="sec-label"><div class="sec-label-line"></div><span>Ownership & Impact</span></div>
+  <div class="sec-title">Leadership Roles</div>
+  <div class="lead-grid reveal">
+    <div class="lead-card">
+      <div class="lead-ico">🏆</div>
+      <div>
+        <div class="lead-name">Executive Student Coordinator</div>
+        <div class="lead-org">NEXUS EDGE · IIBS × BCU</div>
+        <div class="lead-desc">Primary coordinator for 2 editions of NEXUS EDGE management conclave — managing 2,500+ participants, 30+ colleges and multi-stakeholder operations end-to-end.</div>
+      </div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-ico">🔬</div>
+      <div>
+        <div class="lead-name">President — Research Club</div>
+        <div class="lead-org">IIBS Bengaluru</div>
+        <div class="lead-desc">Led academic discussions, paper reviews, and research-oriented initiatives. Coordinated inter-department participation and supported publication and presentation efforts.</div>
+      </div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-ico">📰</div>
+      <div>
+        <div class="lead-name">Editor — University Magazine</div>
+        <div class="lead-org">DSMNRU Lucknow</div>
+        <div class="lead-desc">Oversaw content planning, editing, and publication cycles of the monthly magazine. Coordinated contributors across departments for quality and timely release every issue.</div>
+      </div>
+    </div>
+    <div class="lead-card">
+      <div class="lead-ico">🏸</div>
+      <div>
+        <div class="lead-name">Operations Volunteer</div>
+        <div class="lead-org">5th National Para Badminton Championship · 2023</div>
+        <div class="lead-desc">Selected to support logistics at a national-level sporting event at DSMNRU Lucknow alongside Paralympic India officials and national federation teams.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="sec-label"><div class="sec-label-line"></div><span>Credentials</span></div>
+  <div class="sec-title">Certifications</div>
+  <div class="cert-grid reveal">
+    <div class="cert-card">
+      <div class="cert-logo" style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2);font-size:22px">🎓</div>
+      <div>
+        <div class="cert-name">Harvard Business Impact</div>
+        <div class="cert-issuer">Harvard ManageMentor Programs</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo" style="background:rgba(91,141,238,0.1);border:1px solid rgba(91,141,238,0.2);font-size:22px">📋</div>
+      <div>
+        <div class="cert-name">Google Project Management</div>
+        <div class="cert-issuer">Coursera · Google</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo" style="background:rgba(0,245,196,0.1);border:1px solid rgba(0,245,196,0.2);font-size:22px">⚡</div>
+      <div>
+        <div class="cert-name">Six Sigma White Belt</div>
+        <div class="cert-issuer">CSSC — Council for Six Sigma Certification</div>
+      </div>
+    </div>
+    <div class="cert-card">
+      <div class="cert-logo" style="background:rgba(245,166,35,0.1);border:1px solid rgba(245,166,35,0.2);font-size:22px">📈</div>
+      <div>
+        <div class="cert-name">NISM Series V-A</div>
+        <div class="cert-issuer">National Institute of Securities Markets</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" style="background:var(--s1)">
+  <div class="sec-label"><div class="sec-label-line"></div><span>What I Bring</span></div>
+  <div class="sec-title">Skills & Tools</div>
+  <div class="skills-wrap reveal">
+    <div class="skill-group">
+      <div class="skill-group-hd">Operations</div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Project Execution</span><span class="skill-pct">92%</span></div><div class="skill-track"><div class="skill-fill" style="width:92%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Event Management</span><span class="skill-pct">90%</span></div><div class="skill-track"><div class="skill-fill" style="width:90%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Stakeholder Management</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Crisis Management</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" style="width:85%"></div></div></div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-hd">Business & Strategy</div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Strategic Planning</span><span class="skill-pct">82%</span></div><div class="skill-track"><div class="skill-fill" style="width:82%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Research & Analysis</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Digital Marketing</span><span class="skill-pct">78%</span></div><div class="skill-track"><div class="skill-fill" style="width:78%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Content & Editorial</span><span class="skill-pct">80%</span></div><div class="skill-track"><div class="skill-fill" style="width:80%"></div></div></div>
+    </div>
+    <div class="skill-group">
+      <div class="skill-group-hd">Tools & Tech</div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Excel & Google Sheets</span><span class="skill-pct">85%</span></div><div class="skill-track"><div class="skill-fill" style="width:85%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">PowerPoint & Canva</span><span class="skill-pct">88%</span></div><div class="skill-track"><div class="skill-fill" style="width:88%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Power BI (Basic)</span><span class="skill-pct">65%</span></div><div class="skill-track"><div class="skill-fill" style="width:65%"></div></div></div>
+      <div class="skill-row"><div class="skill-top"><span class="skill-name">Tableau (Basic)</span><span class="skill-pct">60%</span></div><div class="skill-track"><div class="skill-fill" style="width:60%"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-label"><div class="sec-label-line"></div><span>Let's Connect</span></div>
+  <div class="sec-title">Get in Touch</div>
+  <div class="contact-grid reveal">
+    <div>
+      <div class="contact-text">
+        <p>I'm open to internships, consulting projects, research collaborations, and full-time roles in Operations, Strategy, or Project Management. Feel free to reach out!</p>
+      </div>
+      <div class="contact-links">
+        <a class="contact-link" href="tel:+916387390407">
+          <div class="cl-icon">📱</div>
+          <div><div class="cl-label">Phone</div><div class="cl-val">+91 6387 390 407</div></div>
+        </a>
+        <a class="contact-link" href="mailto:sanjulmishra228161@gmail.com">
+          <div class="cl-icon">✉️</div>
+          <div><div class="cl-label">Email</div><div class="cl-val">sanjulmishra228161@gmail.com</div></div>
+        </a>
+        <a class="contact-link" href="https://www.linkedin.com/in/sanjulmishra" target="_blank">
+          <div class="cl-icon">💼</div>
+          <div><div class="cl-label">LinkedIn</div><div class="cl-val">linkedin.com/in/sanjulmishra</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="contact-cta-box">
+      <span class="cta-emoji">🚀</span>
+      <h3>Open to Opportunities</h3>
+      <p>Internships · Consulting · Research Collaborations · Full-time Roles in Operations, Strategy & Project Management</p>
+      <a class="btn-glow" href="mailto:sanjulmishra228161@gmail.com" style="display:inline-block">Send me an email</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Sanjul Mishra</div>
+  <div class="footer-note">MBA · IIBS Bengaluru · Operations & Execution · 2025</div>
+</footer>
+
+<script>
+const cursor = document.getElementById('cursor');
+const ring = document.getElementById('ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cursor.style.left=(mx-6)+'px';
+  cursor.style.top=(my-6)+'px';
+});
+function animRing(){
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  ring.style.left=(rx-20)+'px';
+  ring.style.top=(ry-20)+'px';
+  requestAnimationFrame(animRing);
+}
+animRing();
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
